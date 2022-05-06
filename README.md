@@ -8,7 +8,7 @@ There are 3 ways to generate this web interface:
 - [Rollup](./rollup/)
 - [Webpack](./webpack/)
 
-You can access one of these by going to this [link](./index.html).
+You can access one of those by clicking on this [link](https://xorxsan.github.io/password-generator-js/index.html).
 
 ## How to build it on Webpack
 
