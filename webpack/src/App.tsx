@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Stack,
-  Button,
-  Grid,
-  TextField,
-  IconButton,
-} from "@mui/material";
+import { Container } from "@mui/material";
 import { Box } from "@mui/system";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { generate_v0, generate_v1, generate_v2 } from "pkg";
-import { ContentCopy } from "@mui/icons-material";
+import { InputArea } from "./input-area";
+import { PasswordsArea } from "./passwords-area";
 
 const App = (): JSX.Element => {
   const [masterPassword, setMasterPassword] = useState<string | undefined>(
@@ -38,9 +31,11 @@ const App = (): JSX.Element => {
 
   const onChangeLength = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    callback: (p: number) => void
+    callback: (p: number) => void,
+    defaultLength: number
   ) => {
-    callback(parseInt(event.currentTarget.value));
+    length = parseInt(event.currentTarget.value);
+    callback(isNaN(length) ? defaultLength : length);
   };
 
   const onGeneratePasswordClicked = (
@@ -67,103 +62,25 @@ const App = (): JSX.Element => {
   return (
     <Container>
       <Box marginTop={5}>
-        <Stack spacing={2}>
-          <TextField
-            error={masterPassword === "" ? true : false}
-            id="master-password"
-            label="Master Password"
-            variant="outlined"
-            type="password"
-            required
-            value={masterPassword}
-            onChange={onChangeMasterPassword}
-            helperText="Required"
-          />
-          <TextField
-            error={seed === "" ? true : false}
-            id="seed"
-            label="Seed"
-            variant="outlined"
-            required
-            value={seed}
-            onChange={onChangeSeed}
-            helperText="Required"
-          />
-          <Button variant="outlined" onClick={onGeneratePasswordClicked}>
-            Generate password
-          </Button>
-          <Button variant="outlined" onClick={onClearAllClicked}>
-            Clear all
-          </Button>
-        </Stack>
-        <Stack spacing={2} marginTop={2}>
-          <Grid container>
-            <Grid item xs={4}>
-              <TextField
-                id="length"
-                label="Length"
-                variant="outlined"
-                value={lengthV0}
-                fullWidth
-                onChange={(e) => onChangeLength(e, setLengthV0)}
-              />
-            </Grid>
-            <Grid item xs={7}>
-              <TextField hiddenLabel disabled fullWidth value={passwordV0} />
-            </Grid>
-            <Grid item xs={1}>
-              <CopyToClipboard text={passwordV0}>
-                <IconButton aria-label="Copy password v0 to clipboard">
-                  <ContentCopy />
-                </IconButton>
-              </CopyToClipboard>
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item xs={4}>
-              <TextField
-                id="length"
-                label="Length"
-                variant="outlined"
-                value={lengthV1}
-                fullWidth
-                onChange={(e) => onChangeLength(e, setLengthV1)}
-              />
-            </Grid>
-            <Grid item xs={7}>
-              <TextField hiddenLabel disabled fullWidth value={passwordV1} />
-            </Grid>
-            <Grid item xs={1}>
-              <CopyToClipboard text={passwordV1}>
-                <IconButton aria-label="Copy password v1 to clipboard">
-                  <ContentCopy />
-                </IconButton>
-              </CopyToClipboard>
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item xs={4}>
-              <TextField
-                id="length"
-                label="Length"
-                variant="outlined"
-                value={lengthV2}
-                fullWidth
-                onChange={(e) => onChangeLength(e, setLengthV2)}
-              />
-            </Grid>
-            <Grid item xs={7}>
-              <TextField hiddenLabel disabled fullWidth value={passwordV2} />
-            </Grid>
-            <Grid item xs={1}>
-              <CopyToClipboard text={passwordV2}>
-                <IconButton aria-label="Copy password v2 to clipboard">
-                  <ContentCopy />
-                </IconButton>
-              </CopyToClipboard>
-            </Grid>
-          </Grid>
-        </Stack>
+        <InputArea
+          masterPassword={masterPassword}
+          onChangeMasterPassword={onChangeMasterPassword}
+          seed={seed}
+          onChangeSeed={onChangeSeed}
+          lengthV0={lengthV0}
+          onChangeLengthV0={(e) => onChangeLength(e, setLengthV0, 20)}
+          lengthV1={lengthV1}
+          onChangeLengthV1={(e) => onChangeLength(e, setLengthV1, 20)}
+          lengthV2={lengthV2}
+          onChangeLengthV2={(e) => onChangeLength(e, setLengthV2, 25)}
+          onGeneratePasswordClicked={onGeneratePasswordClicked}
+          onClearAllClicked={onClearAllClicked}
+        />
+        <PasswordsArea
+          passwordV0={passwordV0}
+          passwordV1={passwordV1}
+          passwordV2={passwordV2}
+        />
       </Box>
     </Container>
   );
