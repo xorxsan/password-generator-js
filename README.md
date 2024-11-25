@@ -10,6 +10,12 @@ There are 3 ways to generate this web interface:
 
 You can access one of those by clicking on this [link](https://xorxsan.github.io/password-generator-js/index.html).
 
+## Build the password generator
+
+```sh
+cargo build -r
+```
+
 ## How to build it on Webpack
 
 Go to the webpack folder and then issue the following commands:
